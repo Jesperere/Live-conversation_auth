@@ -17,7 +17,7 @@ services:
       ME_CONFIG_MONGODB_URL: mongodb://mongo:27017/
 
   docs-api:
-    container-name: docs-api
+    container_name: docs-api
     build:
       context: .
       dockerfile: dockerfile
