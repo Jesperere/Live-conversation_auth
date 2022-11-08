@@ -3,27 +3,27 @@ services:
   mongo:
     image: mongo
     restart: always
-    ports: 
+    ports:
       - 27017:27017
     volumes:
       - ./tmp/mongo:/data/db
 
-mongo-express:
-  image: mongo-express
-  restart: always
-  ports:
-    - 8081:8081
-  environment: 
-    ME_CONFIG_MONGODB_URL: mongodb://mongo:27017/
+  mongo-express:
+    image: mongo-express
+    restart: always
+    ports:
+      - 8081:8081
+    environment:
+      ME_CONFIG_MONGODB_URL: mongodb://mongo:27017/
 
-docs-api: 
-  container-name: docs-api
-  build:
-    context: .
-    dockerfile: dockerfile
-  depends_on: 
-    - mongo
-  ports:
-    - 4000:4000
-  environment:
-    - MONGO_URL=mongodb://mongo:27017/
+  docs-api:
+    container-name: docs-api
+    build:
+      context: .
+      dockerfile: dockerfile
+    depends_on:
+      - mongo
+    ports:
+      - 4000:4000
+    environment:
+      - MONGO_URL=mongodb://mongo:27017/
