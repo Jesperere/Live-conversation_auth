@@ -25,35 +25,43 @@ export const resolvers = {
         email: email.toLowerCase(),
         password: encryptedPassword
       })
-      
+
       const res = await newUser.save();
       return {
         message: "User added"
       };
     },
-    async loginUser(_, { loginUser: { email, password, color } }) {
+    async loginUser(_, { loginInput: { email, password } }) {
       //Get user
-      const user = await User.findOne({ email })
+      const user = await User.findOne({ email });
+
       //If user doesnt exist - throw error
       if (!user)
-        throw new Error("Invalid user")
+        throw new Error("Invalid user");
 
       //Compare password with encrypted password
-      if (!bcrypt.compareSync("insert Input.password value here", user.password))
-      //if password doesnt match - throw err
-        throw new Error("Invalid password")
+      if (!bcrypt.compareSync(password, user.password))
+        //if password doesnt match - throw err
+        throw new Error("Invalid password");
+
       //Create JWT
       const token = jwt.sign({
-        password: user.username,
-        color: user.color
+        email: user.email,
+        password: user.password
       }, secret, {
         expiresIn: "2h"
-      })
+      });
+
       //Return JWT
-      return token;
+      console.log(token);
+      console.log("User logged in");
+      return token
+      // return {
+      //   message:"user successfully logged in"
+      // }
     }
   },
   Query: {
-    user: (_, { ID }) => User.findById(ID)
+    user: (_, { ID }) => User.findById(ID);
   }
 }
