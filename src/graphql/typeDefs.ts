@@ -25,8 +25,12 @@ export const typeDefs = `#graphql
     user(id: ID!): User
   }
 
+  type Message {
+    message: String
+  }
+
   type Mutation {
-    registerUser(registerInput: RegisterInput): User
+    registerUser(registerInput: RegisterInput): Message
     loginUser(loginInput: LoginInput): User
   }
 `;

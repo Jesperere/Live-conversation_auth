@@ -16,13 +16,13 @@ services:
     environment: 
       ME_CONFIG_MONGODB_URL: mongodb://mongo:27017/
 
-  docs-api-dev: 
-    container_name: docs-api.dev
+  live-conversation-auth: 
+    container_name: live-conversation-auth
     build:
       context: .
       dockerfile: Dockerfile.dev
     volumes:
-      - .src:/app/src
+      - ./src:/app/src
     depends_on: 
       - mongo
     ports:
