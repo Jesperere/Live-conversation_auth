@@ -3,6 +3,8 @@ import { User } from "../../models/User";
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 
+const secret = "supersecret"
+
 export const resolvers = {
   Mutation: {
     async registerUser(_, { registerInput: { username, email, password } }) {
@@ -15,23 +17,41 @@ export const resolvers = {
       }
       // Encrypt password
       const salt = await bcrypt.genSalt()
-      var encrypedPassword = await bcrypt.hash(password, salt);
-
+      var encryptedPassword = await bcrypt.hash(password, salt);
 
       //Build out mongoose model (User)
       const newUser = new User({
         username: username,
         email: email.toLowerCase(),
-        password: encrypedPassword
+        password: encryptedPassword
       })
-
+      
       const res = await newUser.save();
-
       return {
         message: "User added"
       };
     },
-    
+    async loginUser(_, { loginUser: { email, password, color } }) {
+      //Get user
+      const user = await User.findOne({ email })
+      //If user doesnt exist - throw error
+      if (!user)
+        throw new Error("Invalid user")
+
+      //Compare password with encrypted password
+      if (!bcrypt.compareSync("insert Input.password value here", user.password))
+      //if password doesnt match - throw err
+        throw new Error("Invalid password")
+      //Create JWT
+      const token = jwt.sign({
+        password: user.username,
+        color: user.color
+      }, secret, {
+        expiresIn: "2h"
+      })
+      //Return JWT
+      return token;
+    }
   },
   Query: {
     user: (_, { ID }) => User.findById(ID)
