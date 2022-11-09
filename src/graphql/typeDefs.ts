@@ -1,14 +1,11 @@
-import { ApolloServer } from '@apollo/server';
-import { startStandaloneServer } from '@apollo/server/standalone';
-
 export const typeDefs = `#graphql
 
   type User {
     username: String
     email: String
     password: String
-    color: String
-    # token: String
+    # color: String
+    token: String
   }
 
   input RegisterInput {
@@ -32,6 +29,6 @@ export const typeDefs = `#graphql
 
   type Mutation {
     registerUser(registerInput: RegisterInput): Message
-    loginUser(loginInput: LoginInput): User
+    loginUser(loginInput: LoginInput): User #should i set as Message?
   }
 `;
