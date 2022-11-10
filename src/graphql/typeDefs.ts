@@ -1,7 +1,7 @@
 export const typeDefs = `#graphql
 
   type User {
-    username: String
+    alias: String
     email: String
     password: String
     # color: String
@@ -9,7 +9,7 @@ export const typeDefs = `#graphql
   }
 
   input RegisterInput {
-    username: String
+    alias: String
     email: String
     password: String
   }

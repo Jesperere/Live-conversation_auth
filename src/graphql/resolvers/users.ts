@@ -7,7 +7,7 @@ const secret = "supersecret"
 
 export const resolvers = {
   Mutation: {
-    async registerUser(_, { registerInput: { username, email, password } }) {
+    async registerUser(_, { registerInput: { alias, email, password } }) {
       // See if an old user exists with email attempting to register
       const oldUser = await User.findOne({ email });
 
@@ -21,7 +21,7 @@ export const resolvers = {
 
       //Build out mongoose model (User)
       const newUser = new User({
-        username: username,
+        alias: alias,
         email: email.toLowerCase(),
         password: encryptedPassword
       })
@@ -62,6 +62,6 @@ export const resolvers = {
     }
   },
   Query: {
-    user: (_, { ID }) => User.findById(ID);
+    user: (_, { ID }) => User.findById(ID)
   }
 }
