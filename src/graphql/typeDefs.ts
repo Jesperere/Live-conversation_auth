@@ -4,14 +4,16 @@ export const typeDefs = `#graphql
     alias: String
     email: String
     password: String
-    # color: String
+    color: String
     token: String
   }
 
   input RegisterInput {
-    alias: String
     email: String
+    alias: String
     password: String
+    color: String
+    confirmPassword: String
   }
 
   input LoginInput {
@@ -21,14 +23,21 @@ export const typeDefs = `#graphql
 
   type Query {
     user(id: ID!): User
+    users: [User]
   }
 
   type Message {
     message: String
   }
 
+  type MessageToken {
+    message: String
+    token: String
+    email: String
+  }
+
   type Mutation {
     registerUser(registerInput: RegisterInput): Message
-    loginUser(loginInput: LoginInput): User #should i set as Message?
+    loginUser(loginInput: LoginInput): MessageToken
   }
 `;
