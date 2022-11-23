@@ -7,7 +7,7 @@ const secret = "supersecret"
 
 export const resolvers = {
   Mutation: {
-    async registerUser(_, { registerInput: { alias, email, password } }) {
+    async registerUser(_, { registerInput: { alias, email, password, color } }) {
       // See if an old user exists with email attempting to register
       const oldUser = await User.findOne({ email });
 
@@ -23,9 +23,12 @@ export const resolvers = {
       const newUser = new User({
         alias: alias,
         email: email.toLowerCase(),
-        password: encryptedPassword
+        password: encryptedPassword,
+        color: color,
       })
 
+
+      console.log('User registered')
       const res = await newUser.save();
       return {
         message: "User added"
@@ -47,21 +50,24 @@ export const resolvers = {
       //Create JWT
       const token = jwt.sign({
         email: user.email,
-        password: user.password
+        alias: user.alias,
+        color: user.color,
       }, secret, {
-        expiresIn: "2h"
+        expiresIn: "1m"
       });
-
-      //Return JWT
+      
       console.log(token);
       console.log("User logged in");
-      return token
-      // return {
-      //   message:"user successfully logged in"
-      // }
+      // return token
+      return {
+        token,
+        message:"user successfully logged in",        
+      }
     }
   },
   Query: {
-    user: (_, { ID }) => User.findById(ID)
+    user: (_, { ID }) => User.findById(ID),
+    users: async () => await User.find()
+
   }
 }
