@@ -2,6 +2,9 @@ import { ApolloError } from "apollo-server";
 import { User } from "../../models/User";
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
+import dotenv from 'dotenv'
+
+dotenv.config()
 
 const secret = process.env.SECRET
 
