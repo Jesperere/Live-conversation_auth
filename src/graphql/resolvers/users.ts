@@ -3,7 +3,7 @@ import { User } from "../../models/User";
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 
-const secret = "SECRET"
+const secret = process.env.SECRET
 
 export const resolvers = {
   Mutation: {
