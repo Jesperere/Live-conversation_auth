@@ -3,7 +3,7 @@ import { User } from "../../models/User";
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 
-const secret = "supersecret"
+const secret = "SECRET"
 
 export const resolvers = {
   Mutation: {
@@ -20,7 +20,7 @@ export const resolvers = {
       var encryptedPassword = await bcrypt.hash(password, salt);
 
       //Build out mongoose model (User)
-      const newUser = new User({
+      const newUser = new User({  
         alias: alias,
         email: email.toLowerCase(),
         password: encryptedPassword,
@@ -53,7 +53,7 @@ export const resolvers = {
         alias: user.alias,
         color: user.color,
       }, secret, {
-        expiresIn: "1m"
+        expiresIn: "2h"
       });
       
       console.log(token);
@@ -67,7 +67,7 @@ export const resolvers = {
   },
   Query: {
     user: (_, { ID }) => User.findById(ID),
-    users: async () => await User.find()
+    users: async () => await User.find()  
 
   }
 }
