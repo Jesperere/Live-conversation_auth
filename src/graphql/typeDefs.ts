@@ -1,19 +1,43 @@
-import { ApolloServer } from '@apollo/server';
-import { startStandaloneServer } from '@apollo/server/standalone';
-
 export const typeDefs = `#graphql
-  # Comments in GraphQL strings (such as this one) start with the hash (#) symbol.
 
-  # This "Book" type defines the queryable fields for every book in our data source.
-  type Book {
-    title: String
-    author: String
+  type User {
+    alias: String
+    email: String
+    password: String
+    color: String
+    token: String
   }
 
-  # The "Query" type is special: it lists all of the available queries that
-  # clients can execute, along with the return type for each. In this
-  # case, the "books" query returns an array of zero or more Books (defined above).
+  input RegisterInput {
+    email: String
+    alias: String
+    password: String
+    color: String
+    confirmPassword: String
+  }
+
+  input LoginInput {
+    email: String
+    password: String
+  }
+
   type Query {
-    books: [Book]
+    user(id: ID!): User
+    users: [User]
+  }
+
+  type Message {
+    message: String
+  }
+
+  type MessageToken {
+    message: String
+    token: String
+    email: String
+  }
+
+  type Mutation {
+    registerUser(registerInput: RegisterInput): Message
+    loginUser(loginInput: LoginInput): MessageToken
   }
 `;

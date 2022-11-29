@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv'
 import { ApolloServer } from 'apollo-server';
 import { typeDefs } from './src/graphql/typeDefs';
-import { resolvers } from './src/graphql/resolvers';
+import { resolvers } from './src/graphql/resolvers/users';
 
 dotenv.config()
 
