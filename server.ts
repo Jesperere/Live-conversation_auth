@@ -1,25 +1,25 @@
 import mongoose from 'mongoose';
-import dotenv from 'dotenv'
 import { ApolloServer } from 'apollo-server';
 import { typeDefs } from './src/graphql/typeDefs';
 import { resolvers } from './src/graphql/resolvers/users';
+import { environment } from './src/util/env';
 
-dotenv.config()
 
-const uri = process.env.MONGO_URL
-console.log(uri);
+const mongoInit = () =>  mongoose.connect(environment.MONGO_URL)
 
-const port = process.env.PORT
-const server = new ApolloServer({
-  typeDefs,
-  resolvers
-})
+const apolloInit = () => {
+  const server = new ApolloServer({
+    typeDefs,
+    resolvers
+  });
+  return server.listen(environment.PORT);
+}
 
-mongoose.connect(uri)
-  .then(() => {
-    console.log("MongoDB Connected");
-    return server.listen(port)
-  })
-  .then((res) => {
-    console.log(`Server running at ${res.url}`);
-  })
+export const startServer = async () => {
+  await mongoInit();
+  console.log("MongoDB Connected");
+  
+  const apolloState = await apolloInit();
+  console.log(`Server running at ${apolloState.url}`);
+
+}

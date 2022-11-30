@@ -3,10 +3,12 @@ import { User } from "../../models/User";
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import dotenv from 'dotenv'
+import { environment } from "../../util/env";
 
 dotenv.config()
 
-const secret = process.env.SECRET
+const secret = environment.SECRET
+
 
 export const resolvers = {
   Mutation: {
