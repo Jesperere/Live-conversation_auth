@@ -8,5 +8,5 @@ export interface IEnv {
 export const environment = {
     MONGO_URL: process.env.MONGO_URL,
     PORT: process.env.PORT,
-    SECRET: process.env.SERET
+    SECRET: process.env.SECRET
 } as IEnv
